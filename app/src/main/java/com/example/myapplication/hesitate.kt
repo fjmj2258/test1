@@ -37,11 +37,6 @@ class hesitate : AppCompatActivity() {
             startActivityForResult(Intent(this, MainActivity::class.java), 1)
         }
 
-        val btn_hesitate_random = findViewById<Button>(R.id.btn_hesitate_random)
-        btn_hesitate_random.setOnClickListener {
-            lunchfoodlotto()
-        }
-
         //取得資料庫實體
         dbrw = hesitate_SQL(this).writableDatabase
 
@@ -52,23 +47,6 @@ class hesitate : AppCompatActivity() {
         setListener()
 
     }
-
-    class foodchoice(val numfoodchoice: Int) {
-        fun playfoodlotto(): Int {
-            return(0..numfoodchoice-1).random()
-        }
-    }
-
-    private fun lunchfoodlotto() {
-        val btn_hesitate_random = findViewById<Button>(R.id.btn_hesitate_random)
-        val lunchlist = arrayOf(databaseList().toString())
-        val lunchlistsize = lunchlist.size
-        val foodchoice = foodchoice(lunchlistsize)
-        val foodchoicenumber = foodchoice.playfoodlotto()
-        val resultTextView = lunchlist[foodchoicenumber]
-        btn_hesitate_random.setText("${resultTextView}")
-    }
-
 
     //設定監聽器
      fun setListener() {
@@ -104,13 +82,14 @@ class hesitate : AppCompatActivity() {
             c.close() //關閉 Cursor
         }
 
-        findViewById<Button>(R.id.btn_delet).setOnClickListener {
-            //判斷是否有填入書名
+        val btn_delet = findViewById<Button>(R.id.btn_delet)
+        btn_delet.setOnClickListener {
+            //判斷是否有填入食物
             if (ed_wanteat.length() < 1)
                 showToast("欄位請勿留空")
             else
                 try {
-                    //從 myTable 資料表刪除相同書名的紀錄
+                    //從 myTable 資料表刪除相同名字的食物
                     dbrw.execSQL("DELETE FROM myTable WHERE food LIKE '${ed_wanteat.text}'")
                     showToast("刪除:${ed_wanteat.text}")
                     cleanEditText()
@@ -132,5 +111,45 @@ class hesitate : AppCompatActivity() {
             adapter.notifyDataSetChanged() //更新列表資料
             c.close() //關閉 Cursor
         }
+
+        class foodchoice(val numfoodchoice: Int) {
+            fun playfoodlotto(): Int {
+                return(0..numfoodchoice-1).random()
+            }
+        }
+
+        val btn_hesitate_random = findViewById<Button>(R.id.btn_hesitate_random)
+        btn_hesitate_random.setOnClickListener {
+
+            val queryString = "SELECT * FROM myTable"
+
+            val c = dbrw.rawQuery(queryString, null)
+            c.moveToFirst() //從第一筆開始輸出
+            items.clear() //清空舊資料
+
+            var all = 0
+
+            for (i in 0 until c.count) {
+                c.moveToNext() //移動到下一筆
+                all = all + 1 //計算有多少項目
+            }
+            c.moveToFirst() //從第一筆開始輸出
+            items.clear() //清空舊資料
+
+            var randomlist = arrayOfNulls<String>(all)
+
+            for (i in 0 until c.count) {
+                randomlist[i] = c.getString(0)
+                c.moveToNext() //移動到下一筆
+            }
+            c.moveToFirst() //從第一筆開始輸出
+            items.clear() //清空舊資料
+
+            val foodchoice = foodchoice(all)//跑亂數
+            val foodchoicenumber = foodchoice.playfoodlotto() //跑亂數
+            val resultTextView = randomlist[foodchoicenumber] //數字對應的項目
+            btn_hesitate_random.setText("${resultTextView}") //botton字輸出
+        }
+
     }
 }

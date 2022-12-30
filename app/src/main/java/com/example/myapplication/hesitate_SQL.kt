@@ -18,7 +18,7 @@ class hesitate_SQL (
 
     override fun onCreate(db: SQLiteDatabase) {
         //建立 myTable 資料表，表內有 food 字串欄位123
-        db.execSQL("CREATE TABLE myTable(foodtext PRIMARY KEY)")
+        db.execSQL("CREATE TABLE myTable(food text PRIMARY KEY)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
