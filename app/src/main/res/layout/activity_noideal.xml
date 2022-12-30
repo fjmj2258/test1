@@ -7,36 +7,50 @@
     tools:context=".noideal">
 
     <Button
-        android:id="@+id/btn_breakfast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
-        android:text="早餐"
+        android:id="@+id/btn_dinner"
+        android:layout_width="114dp"
+        android:layout_height="111dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/btn_shap"
+        android:text="晚餐"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_lunch" />
+
+    <Button
+        android:id="@+id/btn_breakfast"
+        android:layout_width="109dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/btn_shap"
+        android:text="早餐"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_lunch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_width="109dp"
+        android:layout_height="111dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/btn_shap"
         android:text="午餐"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_breakfast" />
 
     <Button
-        android:id="@+id/btn_dinner"
+        android:id="@+id/btn_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="晚餐"
+        android:layout_marginTop="36dp"
+        android:text="修改食物"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_lunch" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_dinner" />
 
     <Button
         android:id="@+id/btn_noideal_back"

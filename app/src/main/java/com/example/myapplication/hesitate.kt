@@ -32,14 +32,19 @@ class hesitate : AppCompatActivity() {
         setContentView(R.layout.activity_hesitate)
 
         val btn_hesitate_back = findViewById<Button>(R.id.btn_hesitate_back)
-
         //返回按鈕觸發 -> 跳回主畫面
         btn_hesitate_back.setOnClickListener {
             startActivityForResult(Intent(this, MainActivity::class.java), 1)
         }
 
+        val btn_hesitate_random = findViewById<Button>(R.id.btn_hesitate_random)
+        btn_hesitate_random.setOnClickListener {
+            lunchfoodlotto()
+        }
+
         //取得資料庫實體
         dbrw = hesitate_SQL(this).writableDatabase
+
         //宣告 Adapter 並連結 ListView
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
         findViewById<ListView>(R.id.listView).adapter = adapter
@@ -48,8 +53,25 @@ class hesitate : AppCompatActivity() {
 
     }
 
+    class foodchoice(val numfoodchoice: Int) {
+        fun playfoodlotto(): Int {
+            return(0..numfoodchoice-1).random()
+        }
+    }
+
+    private fun lunchfoodlotto() {
+        val btn_hesitate_random = findViewById<Button>(R.id.btn_hesitate_random)
+        val lunchlist = arrayOf(databaseList().toString())
+        val lunchlistsize = lunchlist.size
+        val foodchoice = foodchoice(lunchlistsize)
+        val foodchoicenumber = foodchoice.playfoodlotto()
+        val resultTextView = lunchlist[foodchoicenumber]
+        btn_hesitate_random.setText("${resultTextView}")
+    }
+
+
     //設定監聽器
-    private fun setListener() {
+     fun setListener() {
         val ed_wanteat = findViewById<EditText>(R.id.ed_wanteat)
 
         val btn_insert = findViewById<Button>(R.id.btn_insert)
@@ -59,9 +81,7 @@ class hesitate : AppCompatActivity() {
             else
                 try {
                     //新增一筆書籍紀錄於 myTable 資料表
-                    dbrw.execSQL(
-                        "INSERT INTO myTable(food) VALUES(?)",
-                        arrayOf(ed_wanteat.text.toString())
+                    dbrw.execSQL("INSERT INTO myTable(food) VALUES(?)", arrayOf(ed_wanteat.text.toString())
                     )
                     showToast("新增 : ${ed_wanteat.text}")
                     cleanEditText()
@@ -75,7 +95,6 @@ class hesitate : AppCompatActivity() {
             val c = dbrw.rawQuery(queryString, null)
             c.moveToFirst() //從第一筆開始輸出
             items.clear() //清空舊資料
-            showToast("共有${c.count}筆資料")
             for (i in 0 until c.count) {
                 //加入新資料
                 items.add("選擇 : ${c.getString(0)}\t\t")
@@ -105,7 +124,6 @@ class hesitate : AppCompatActivity() {
             val c = dbrw.rawQuery(queryString, null)
             c.moveToFirst() //從第一筆開始輸出
             items.clear() //清空舊資料
-            showToast("共有${c.count}筆資料")
             for (i in 0 until c.count) {
                 //加入新資料
                 items.add("選擇 : ${c.getString(0)}\t\t")

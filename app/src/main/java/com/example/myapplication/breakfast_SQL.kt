@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class hesitate_SQL (
+class breakfast_SQL (
     context: Context,
     name: String = database,
     factory: SQLiteDatabase.CursorFactory? = null,
@@ -18,12 +18,12 @@ class hesitate_SQL (
 
     override fun onCreate(db: SQLiteDatabase) {
         //建立 myTable 資料表，表內有 food 字串欄位123
-        db.execSQL("CREATE TABLE myTable(foodtext PRIMARY KEY)")
+        db.execSQL("CREATE TABLE bre(food text PRIMARY KEY)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         //升級資料庫版本時，刪除舊資料表，並重新執行 onCreate()，建立新資料表
-        db.execSQL("DROP TABLE IF EXISTS myTable")
+        db.execSQL("DROP TABLE IF EXISTS bre")
         onCreate(db)
     }
 }
