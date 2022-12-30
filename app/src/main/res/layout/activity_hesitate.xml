@@ -50,30 +50,47 @@
             android:layout_marginEnd="4dp"
             android:text="新增" />
         <Button
-            android:id="@+id/btn_list"
+            android:id="@+id/btn_delet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="查詢" />
+            android:layout_marginEnd="4dp"
+            android:text="刪除" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_hesitate_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="676dp"
         android:text="返回"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_hesitate_random"
+        android:layout_width="156dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="364dp"
+        android:background="@drawable/btn_shap"
+        android:text="吃甚麼?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="383dp"
-        android:layout_height="473dp"
-        android:layout_marginBottom="128dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="346dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="132dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,33 +54,23 @@ class hesitate : AppCompatActivity() {
 
         val btn_insert = findViewById<Button>(R.id.btn_insert)
         btn_insert.setOnClickListener {
-            if (ed_wanteat.length() < 1)//判斷是否有填入書名或價格
+            if (ed_wanteat.length() < 1)//判斷是否有填入食物
                 Toast.makeText(this, "欄位請勿留空", Toast.LENGTH_SHORT).show()
             else
                 try {
                     //新增一筆書籍紀錄於 myTable 資料表
                     dbrw.execSQL(
-                        "INSERT INTO myTable(book) VALUES(?)",
+                        "INSERT INTO myTable(food) VALUES(?)",
                         arrayOf(ed_wanteat.text.toString())
                     )
-                    showToast("新增:${ed_wanteat.text}")
+                    showToast("新增 : ${ed_wanteat.text}")
                     cleanEditText()
-                    fun EditText.clear() {
-                        text.clear()
-                    }
-                    //cleanEditText()
                 } catch (e: Exception) {
                     showToast("新增失敗:$e")
                 }
-        }
 
-        val btn_list = findViewById<Button>(R.id.btn_list)
-        btn_list.setOnClickListener {
-            //若無輸入則查詢全部，反之查詢該資料
-            val queryString = if (ed_wanteat.length() < 1)
-                "SELECT * FROM myTable"
-            else
-                "SELECT * FROM myTable WHERE food LIKE '${ed_wanteat.text}'"
+            //列出所有項目
+            val queryString = "SELECT * FROM myTable"
 
             val c = dbrw.rawQuery(queryString, null)
             c.moveToFirst() //從第一筆開始輸出
@@ -95,6 +85,34 @@ class hesitate : AppCompatActivity() {
             c.close() //關閉 Cursor
         }
 
+        findViewById<Button>(R.id.btn_delet).setOnClickListener {
+            //判斷是否有填入書名
+            if (ed_wanteat.length() < 1)
+                showToast("欄位請勿留空")
+            else
+                try {
+                    //從 myTable 資料表刪除相同書名的紀錄
+                    dbrw.execSQL("DELETE FROM myTable WHERE food LIKE '${ed_wanteat.text}'")
+                    showToast("刪除:${ed_wanteat.text}")
+                    cleanEditText()
+                } catch (e: Exception) {
+                    showToast("刪除失敗:$e")
+                }
 
+            //列出所有項目
+            val queryString = "SELECT * FROM myTable"
+
+            val c = dbrw.rawQuery(queryString, null)
+            c.moveToFirst() //從第一筆開始輸出
+            items.clear() //清空舊資料
+            showToast("共有${c.count}筆資料")
+            for (i in 0 until c.count) {
+                //加入新資料
+                items.add("選擇 : ${c.getString(0)}\t\t")
+                c.moveToNext() //移動到下一筆
+            }
+            adapter.notifyDataSetChanged() //更新列表資料
+            c.close() //關閉 Cursor
+        }
     }
 }
